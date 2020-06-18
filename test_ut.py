@@ -1,9 +1,11 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
 import unittest
+import time
 
 class Test(unittest.TestCase):
 
@@ -23,6 +25,7 @@ class Test(unittest.TestCase):
         window_before = driver.window_handles[0]
         driver.find_element(By.ID, 'text').send_keys('расчет расстояний между городами')
         driver.find_element(By.XPATH, '//div[@class="search2__button"]').click()
+        time.sleep(10)
         driver.implicitly_wait(5)
         driver.find_element(By.XPATH, '//a[starts-with(@href, "https://www.avtodispetcher.ru")]').click()
         window_after = driver.window_handles[1]
@@ -50,6 +53,7 @@ class Test(unittest.TestCase):
         el = driver.find_element(By.ID, 'triggerFormD')
         hover = ActionChains(driver).move_to_element(el)
         hover.perform()
+        WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.ID, 'triggerFormD')))
         el.click()
         driver.find_element(By.NAME, 'v')
         driver.find_element(By.NAME, 'v').clear()
